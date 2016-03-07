@@ -19,13 +19,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String TAG = "DatabaseHelper";
     private Context context;
+    private static final String NAME_FILE_DB= "iadb.db";
     private static final String DATABASE_NAME = "himnario";
     private static final int DATABASE_VERSION = 1;
     private String pathDB;
     private UserPreferences preferences;
 
     public enum Columns {
-        numero, titulo, letra, indice
+        numero, titolo, testo
     }
 
     public DatabaseHelper(Context context) {
@@ -50,7 +51,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.e(TAG, "onUpgrade: ");
         db.execSQL("DROP TABLE IF EXISTS " + DBAdapter.DATABASE_TABLE_2008);
-        db.execSQL("DROP TABLE IF EXISTS " + DBAdapter.DATABASE_TABLE_1962);
         onCreate(db);
     }
 
@@ -59,7 +59,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             getReadableDatabase();
         } catch (Exception ignored) {
         }
-        InputStream input = context.getAssets().open("hiad2.db");
+        InputStream input = context.getAssets().open(NAME_FILE_DB);
         OutputStream output = new FileOutputStream(pathDB);
 
         byte[] buffer = new byte[1024];

@@ -1,7 +1,6 @@
 package it.trumbl.ilprofeticoDaniele.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +54,7 @@ public class HimnoAdapter extends BaseAdapter {
         final Himno himno = himnos.get(i);
 
         viewHolder.numeroHimno.setText(String.valueOf(himno.getNumero()));
-        viewHolder.tituloHimno.setText(himno.getTitulo());
+        viewHolder.tituloHimno.setText(himno.getTitle());
 
         return view;
     }

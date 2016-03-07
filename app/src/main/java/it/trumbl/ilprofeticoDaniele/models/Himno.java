@@ -8,39 +8,39 @@ import it.trumbl.ilprofeticoDaniele.dataset.DatabaseHelper;
  * Created by jhonlimaster on 07-12-15.
  */
 public class Himno {
-    private int numero;
-    private String titulo;
-    private String letra;
+    private int numeroInno;
+    private String titleInno;
+    private String testoInno;
 
     public int getNumero() {
-        return numero;
+        return numeroInno;
     }
 
     public void setNumero(int numero) {
-        this.numero = numero;
+        this.numeroInno = numero;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public String getTitle() {
+        return titleInno;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setTitle(String title) {
+        this.titleInno = title;
     }
 
-    public String getLetra() {
-        return letra;
+    public String getTesto() {
+        return testoInno;
     }
 
-    public void setLetra(String letra) {
-        this.letra = letra;
+    public void setTesto(String testo) {
+        testoInno = testo;
     }
 
     public static Himno fromCursor(Cursor cursor){
         Himno himno = new Himno();
         himno.setNumero(cursor.getInt(DatabaseHelper.Columns.numero.ordinal()));
-        himno.setTitulo(cursor.getString(DatabaseHelper.Columns.titulo.ordinal()));
-        himno.setLetra(cursor.getString(DatabaseHelper.Columns.letra.ordinal()));
+        himno.setTitle(cursor.getString(DatabaseHelper.Columns.titolo.ordinal()));
+        himno.setTesto(cursor.getString(DatabaseHelper.Columns.testo.ordinal()));
         return himno;
     }
 }

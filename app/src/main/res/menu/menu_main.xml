@@ -18,8 +18,8 @@
         android:id="@+id/action_rate"
         android:title="@string/rate_app"
         app:showAsAction="never" />
-    <item
+   <!-- <item
         android:id="@+id/action_about"
         android:title="@string/about_string"
-        app:showAsAction="never" />
+        app:showAsAction="never" />-->
 </menu>

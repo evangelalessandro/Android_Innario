@@ -3,7 +3,6 @@ package it.trumbl.ilprofeticoDaniele;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -17,18 +16,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import java.util.ArrayList;
+
 import it.trumbl.ilprofeticoDaniele.dataset.DBAdapter;
 import it.trumbl.ilprofeticoDaniele.models.Himno;
-
-
-import java.util.ArrayList;
-import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -100,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
         }
 
@@ -195,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
                 int versionCode = BuildConfig.VERSION_CODE;
                 String versionName = BuildConfig.VERSION_NAME;
 
-                 new AlertDialog.Builder(this).setTitle(getResources().getString(R.string.app_name) + versionName)
+                new AlertDialog.Builder(this).setTitle(getResources().getString(R.string.app_name) + versionName)
                         .setMessage("Ringraziamento per:" +
                                 "\nAlessandro Evangelisti" +
                                 "\nEmail: evangel.alessandro@gmail.com")
@@ -255,27 +251,32 @@ public class MainActivity extends AppCompatActivity {
                 placeholderHimno.setText("");
                 numString = "" + numero;
                 upPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-                String titleShow = numString + ". " + himnos.get(numero - 1).getTitulo();
+                String titleShow = numString + ". " + himnos.get(numero - 1).getTitle();
                 toolbarPanel.setTitle(titleShow);
                 numberHimno.setText(titleShow);
-                textHimno.setText(himnos.get(numero - 1).getLetra());
+                textHimno.setText(himnos.get(numero - 1).getTesto());
             }
         }
     }
 
     public void numOk(View view) {
         if (numero > 0) {
-            upPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-            String titleShow = numString + ". " + himnos.get(numero - 1).getTitulo();
-            toolbarPanel.setTitle(titleShow);
-            textHimno.setText(himnos.get(numero - 1).getLetra());
+            Himno himn = GetInnoSelected();
+            if (himn != null) {
 
-            Log.i(TAG, "Setting screen name: Himno");
-            tracker.setScreenName("Show-Himno");
-            tracker.send(new HitBuilders.EventBuilder()
-                    .setCategory("Action")
-                    .setAction("ShowHimno")
-                    .build());
+
+                upPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                String titleShow = numString + ". " + himn.getTitle();
+                toolbarPanel.setTitle(titleShow);
+                textHimno.setText(himn.getTesto());
+
+                Log.i(TAG, "Setting screen name: inno");
+                tracker.setScreenName("Show-inno");
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Action")
+                        .setAction("ShowImno")
+                        .build());
+            }
         }
     }
 
@@ -323,17 +324,34 @@ public class MainActivity extends AppCompatActivity {
         masUno(1);
     }
 
+    private Himno GetInnoSelected() {
+        for (Himno him : himnos) {
+            if (him.getNumero() == numero) {
+                return him;
+            }
+        }
+        return null;
+    }
+
     public void masUno(int num) {
         placeholderHimno.setText("");
 
         numString = numString + num;
         numero = Integer.parseInt(numString);
 
-        if (numero > 0 && numero <= limit) {
-            // buscar titulo para mostrar
-            String titleShow = numString + ". " + himnos.get(numero - 1).getTitulo();
-            numberHimno.setText(titleShow);
-        } else {
+        boolean findItem = false;
+        if (numero > 0) {
+
+
+            Himno himn = GetInnoSelected();
+            if (himn != null) {
+                // cerca titolo da mostrare
+                String titleShow = numString + ". " + himn.getTitle();
+                numberHimno.setText(titleShow);
+                findItem = true;
+            }
+        }
+        if (!findItem) {
             numString = numString.substring(0, numString.length() - 1);
             if (numString.length() > 0) {
                 numero = Integer.parseInt(numString);
@@ -354,7 +372,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if (numero > 0 && numero <= limit) {
             // buscar titulo para mostrar
-            String titleShow = numString + ". " + himnos.get(numero - 1).getTitulo();
+            String titleShow = numString + ". " + himnos.get(numero - 1).getTitle();
             numberHimno.setText(titleShow);
         } else {
             // mostrar placeholder
@@ -404,8 +422,8 @@ public class MainActivity extends AppCompatActivity {
         upPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
     }
 
-    private void setPlaceholderHimno(){
-        if (versionHimno){
+    private void setPlaceholderHimno() {
+        if (versionHimno) {
             placeholderHimno.setText(R.string.placeholder_himno_old);
         } else {
             placeholderHimno.setText(R.string.placeholder_himno);

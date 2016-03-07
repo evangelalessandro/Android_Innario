@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Innario Avventista</string>
     <string name="himnos_list">Lista degli inni</string>
-    <string name="about_string">Ricerca di...</string>
+    <string name="about_string">A cura di...</string>
     <string name="minus_size_string">Riduci testo</string>
     <string name="plus_size_string">Aumenta testo</string>
     <string name="action_search">Ricerca un inno</string>

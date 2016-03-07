@@ -1,0 +1,47 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
+    <style name="AppThemeToolbar" parent="AppTheme">
+        <item name="android:textColorPrimary">@color/whiteText</item>
+        <item name="android:textColorSecondary">@color/whiteText</item>
+    </style>
+
+    <style name="DialpadKeyButtonStyle">
+        <item name="android:soundEffectsEnabled">false</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">13</item>
+        <item name="android:textSize">36sp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:minHeight">64dp</item>
+        <item name="android:gravity">center_horizontal|center_vertical</item>
+        <item name="android:background">@drawable/button_correct_shape</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="AppCompat.Button.Flat.Common" parent="Base.TextAppearance.AppCompat.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:background">@drawable/btn_flat_selector</item>
+        <item name="android:textColor">@color/btn_flat_selector</item>
+        <item name="android:textSize">@dimen/text_size_dialpad</item>
+        <item name="android:paddingTop">@dimen/padding_dialpad</item>
+        <item name="android:paddingBottom">@dimen/padding_dialpad</item>
+        <item name="android:layout_marginBottom">@dimen/btn_flat_min</item>
+        <item name="android:layout_marginLeft">@dimen/btn_flat_min</item>
+        <item name="android:layout_marginRight">@dimen/btn_flat_min</item>
+    </style>
+
+</resources>

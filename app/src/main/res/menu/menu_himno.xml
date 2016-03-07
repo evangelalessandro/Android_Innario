@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_plus"
+        android:icon="@drawable/ic_action_plus"
+        android:title="@string/plus_size_string"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_minus"
+        android:icon="@drawable/ic_action_minus"
+        android:title="@string/minus_size_string"
+        app:showAsAction="ifRoom" />
+</menu>

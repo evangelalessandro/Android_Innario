@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Innario Avventista</string>
+    <string name="himnos_list">Lista degli inni</string>
+    <string name="about_string">Ricerca di...</string>
+    <string name="minus_size_string">Riduci testo</string>
+    <string name="plus_size_string">Aumenta testo</string>
+    <string name="action_search">Ricerca un inno</string>
+    <string name="placeholder_himno">Numero dell\'inno</string>
+    <string name="placeholder_himno_old">Numero dell\'inno (vecchio)</string>
+    <string name="rate_app">Vota l\'applicazione</string>
+    <string name="share_app">Condividi</string>
+    <string name="version_himno">Vecchio</string>
+    <string name="Title_himn">Titolo dell\'inno</string>
+    <!--<string name="banner_ad_unit_id">ca-app-pub-5411285117883478/1817419345</string>
+    <string name="banner_ad_unit_id_land">ca-app-pub-5411285117883478/2814644541</string>-->
+</resources>

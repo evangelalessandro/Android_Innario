@@ -1,7 +1,5 @@
 package it.trumbl.ilprofeticoDaniele;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -37,23 +35,20 @@ public class MainActivity extends AppCompatActivity {
     private static final int SEARCH_HIMNO = 7;
     private static final String TEXT_HIMNO = "text_himno";
     private static final String TEXT_SIZE = "text_size";
-
+    private static final int OLD_LIMIT = 527;
+    private static final int NEW_LIMIT = 613;
     private TextView textHimno;
     private TextView numberHimno;
     private TextView placeholderHimno;
     private SlidingUpPanelLayout upPanelLayout;
-    private Toolbar toolbarPanel;
+    private MarqueeToolbar toolbarPanel;
     private DBAdapter dbAdapter;
     private ArrayList<Himno> himnos;
-
     private boolean versionHimno;
     private float textSize;
     private String numString;
     private int numero;
     private int limit;
-    private static final int OLD_LIMIT = 527;
-    private static final int NEW_LIMIT = 613;
-
     private AdView adView;
     private Tracker tracker;
 
@@ -185,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "https://play.google.com/store/apps/details?id="+APP_PNAME);
                 startActivity(Intent.createChooser(sharingIntent, "Condividi via..."));
                 return true;*/
-
+/*
             case R.id.action_about:
 
                 int versionCode = BuildConfig.VERSION_CODE;
@@ -201,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
                                 dialogInterface.dismiss();
                             }
                         }).show();
-                return true;
+                return true;*/
         }
         return super.onOptionsItemSelected(item);
     }
@@ -400,7 +395,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupUpPanel() {
         textHimno.setTextSize(textSize);
-        toolbarPanel = (Toolbar) findViewById(R.id.toolbar_panel);
+        toolbarPanel = (MarqueeToolbar) findViewById(R.id.toolbar_panel);
         toolbarPanel.inflateMenu(R.menu.menu_himno);
         toolbarPanel.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override

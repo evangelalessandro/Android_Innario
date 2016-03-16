@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
+    <it.trumbl.ilprofeticoDaniele.MarqueeToolbar
         android:id="@+id/toolbar_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,7 +21,8 @@
             android:id="@+id/text_himno"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/activity_vertical_margin" />
+            android:padding="@dimen/activity_vertical_margin"
+            android:textColor="@android:color/black" />
     </ScrollView>
 
 </LinearLayout>

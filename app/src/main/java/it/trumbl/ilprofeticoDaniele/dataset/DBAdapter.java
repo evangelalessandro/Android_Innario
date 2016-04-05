@@ -5,13 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.LinkedList;
 
 /**
@@ -19,8 +14,8 @@ import java.util.LinkedList;
  */
 public class DBAdapter {
 
-    private static final String TAG = "DBAdapter";
     public static final String DATABASE_TABLE_2008 = "innarioadulti";
+    private static final String TAG = "DBAdapter";
     private final Context context;
     private it.trumbl.ilprofeticoDaniele.dataset.DatabaseHelper DBHelper;
     private SQLiteDatabase db;
@@ -82,7 +77,7 @@ public class DBAdapter {
 
     public Cursor getHimnoForTitle(String filter, boolean versionH) {
         return db.query(tableVersion(versionH), null, DatabaseHelper.Columns.titolo.name() + " LIKE '%" + filter + "%'", null,
-                null, null, DatabaseHelper.Columns.titolo.name() + " ASC");
+                null, null, DatabaseHelper.Columns.numero.name() + " ASC");
     }
 
     public Cursor getAllHimnoASC(boolean versionH) {

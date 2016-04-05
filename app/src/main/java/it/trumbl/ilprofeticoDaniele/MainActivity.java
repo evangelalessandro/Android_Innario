@@ -246,17 +246,20 @@ public class MainActivity extends AppCompatActivity {
                 placeholderHimno.setText("");
                 numString = "" + numero;
                 upPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-                String titleShow = numString + ". " + himnos.get(numero - 1).getTitle();
+
+                Himno himn = GetInnoByNumber(numero);
+                String titleShow = numString + ". " + himn.getTitle();
                 toolbarPanel.setTitle(titleShow);
                 numberHimno.setText(titleShow);
-                textHimno.setText(himnos.get(numero - 1).getTesto());
+                textHimno.setText("");
+                textHimno.setText(himn.getTesto());
             }
         }
     }
 
     public void numOk(View view) {
         if (numero > 0) {
-            Himno himn = GetInnoSelected();
+            Himno himn = GetInnoByNumber(numero);
             if (himn != null) {
 
 
@@ -319,9 +322,9 @@ public class MainActivity extends AppCompatActivity {
         masUno(1);
     }
 
-    private Himno GetInnoSelected() {
+    private Himno GetInnoByNumber(int num) {
         for (Himno him : himnos) {
-            if (him.getNumero() == numero) {
+            if (him.getNumero() == num) {
                 return him;
             }
         }
@@ -338,7 +341,7 @@ public class MainActivity extends AppCompatActivity {
         if (numero > 0) {
 
 
-            Himno himn = GetInnoSelected();
+            Himno himn = GetInnoByNumber(numero);
             if (himn != null) {
                 // cerca titolo da mostrare
                 String titleShow = numString + ". " + himn.getTitle();

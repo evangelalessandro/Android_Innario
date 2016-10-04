@@ -34,24 +34,26 @@
                 android:focusableInTouchMode="true"
                 android:gravity="center_vertical"
                 android:marqueeRepeatLimit="marquee_forever"
+                android:maxLines="1"
                 android:paddingLeft="16dp"
                 android:paddingRight="64dp"
                 android:scrollHorizontally="true"
-                android:singleLine="true"
                 android:textColor="@android:color/black"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                tools:ignore="RtlHardcoded" />
 
             <TextView
                 android:id="@+id/placeholder_himno"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:gravity="center_vertical"
+                android:maxLines="1"
                 android:paddingLeft="16dp"
                 android:paddingRight="56dp"
-                android:singleLine="true"
                 android:text="@string/placeholder_himno"
                 android:textColor="#b3b3b3"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                tools:ignore="RtlHardcoded" />
 
             <ImageButton
                 android:id="@+id/back_space"
@@ -62,7 +64,8 @@
                 android:contentDescription="@string/app_name"
                 android:onClick="inputDelete"
                 android:paddingRight="@dimen/box_padding"
-                android:src="@drawable/ic_backspace_black_24dp" />
+                android:src="@drawable/ic_backspace_black_24dp"
+                tools:ignore="RtlHardcoded,RtlSymmetry" />
         </FrameLayout>
 
         <View

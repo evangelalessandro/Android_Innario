@@ -1,7 +1,6 @@
 package it.trumbl.ilprofeticoDaniele;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdView;
@@ -19,9 +19,6 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
-import java.util.ArrayList;
-
-import it.trumbl.ilprofeticoDaniele.dataset.DBAdapter;
 import it.trumbl.ilprofeticoDaniele.models.Himno;
 
 public class MainActivity extends AppCompatActivity {
@@ -37,14 +34,14 @@ public class MainActivity extends AppCompatActivity {
     private static final String TEXT_SIZE = "text_size";
     private static final int OLD_LIMIT = 527;
     private static final int NEW_LIMIT = 613;
+    private ScrollView scrollHimno;
+
     private TextView textHimno;
     private TextView numberHimno;
     private TextView placeholderHimno;
     private SlidingUpPanelLayout upPanelLayout;
     private MarqueeToolbar toolbarPanel;
-    private DBAdapter dbAdapter;
-    private ArrayList<Himno> himnos;
-    private boolean versionHimno;
+
     private float textSize;
     private String numString;
     private int numero;
@@ -69,13 +66,11 @@ public class MainActivity extends AppCompatActivity {
             setSupportActionBar(toolbar);
         }
 
-        dbAdapter = new DBAdapter(this);
-        getData();
 
         numberHimno = (TextView) findViewById(R.id.number_himno);
         textHimno = (TextView) findViewById(R.id.text_himno);
         placeholderHimno = (TextView) findViewById(R.id.placeholder_himno);
-
+        scrollHimno = (ScrollView) findViewById(R.id.scroll_himno);
         setupUpPanel();
 
         ImageView backSpaceButton = (ImageView) findViewById(R.id.back_space);
@@ -98,15 +93,6 @@ public class MainActivity extends AppCompatActivity {
         restoreDataSaved(savedInstanceState);
     }
 
-    private void getData() {
-        dbAdapter.open();
-        himnos = new ArrayList<>();
-        Cursor allHimno = dbAdapter.getAllHimno(versionHimno);
-        while (allHimno.moveToNext()) {
-            himnos.add(Himno.fromCursor(allHimno));
-        }
-        dbAdapter.close();
-    }
 
 //    private void adsMethod() {
 //        adView = (AdView) findViewById(R.id.adView);
@@ -146,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_search:
-                startActivityForResult(new Intent(this, SearchActivity.class).putExtra("version", versionHimno), SEARCH_HIMNO);
+                startActivityForResult(new Intent(this, SearchActivity.class), SEARCH_HIMNO);
                 return true;
 
             /*case R.id.action_version_himno:
@@ -247,35 +233,67 @@ public class MainActivity extends AppCompatActivity {
                 numString = "" + numero;
                 upPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
 
-                Himno himn = GetInnoByNumber(numero);
+                Himno himn = InnarioApplication.getInnoByNumber(numero);
                 String titleShow = numString + ". " + himn.getTitle();
                 toolbarPanel.setTitle(titleShow);
                 numberHimno.setText(titleShow);
+
+
+                textHimno.scrollTo(0, 0);
+
                 textHimno.setText("");
                 textHimno.setText(himn.getTesto());
+
+                // Wait until my scrollView is ready
+                scrollHimno.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        scrollHimno.fullScroll(ScrollView.FOCUS_UP);
+                    }
+                }, 600);
+                // Wait until my scrollView is ready
+                textHimno.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        textHimno.scrollTo(0, 0);
+                    }
+                }, 600);
+
             }
         }
     }
 
     public void numOk(View view) {
         if (numero > 0) {
-            Himno himn = GetInnoByNumber(numero);
-            if (himn != null) {
+            Intent intent = new Intent(this, InnoTextActivity.class).putExtra("numero", numero);
 
+            setResult(RESULT_OK, intent);
 
-                upPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-                String titleShow = numString + ". " + himn.getTitle();
-                toolbarPanel.setTitle(titleShow);
-                textHimno.setText(himn.getTesto());
-
-                Log.i(TAG, "Setting screen name: inno");
-                tracker.setScreenName("Show-inno");
-                tracker.send(new HitBuilders.EventBuilder()
-                        .setCategory("Action")
-                        .setAction("ShowImno")
-                        .build());
-            }
+            startActivity(intent);
         }
+//            Himno himn = InnarioApplication.getInnoByNumber(numero);
+//            if (himn != null) {
+//
+//
+//                upPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+//                String titleShow = numString + ". " + himn.getTitle();
+//                toolbarPanel.setTitle(titleShow);
+//                textHimno.setText(himn.getTesto());
+//                scrollHimno.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        scrollHimno.smoothScrollTo(0, 0);
+//                    }
+//                }, 300);
+//
+//                Log.i(TAG, "Setting screen name: inno");
+//                tracker.setScreenName("Show-inno");
+//                tracker.send(new HitBuilders.EventBuilder()
+//                        .setCategory("Action")
+//                        .setAction("ShowImno")
+//                        .build());
+//            }
+//        }
     }
 
     public void inputDelete(View view) {
@@ -322,14 +340,6 @@ public class MainActivity extends AppCompatActivity {
         masUno(1);
     }
 
-    private Himno GetInnoByNumber(int num) {
-        for (Himno him : himnos) {
-            if (him.getNumero() == num) {
-                return him;
-            }
-        }
-        return null;
-    }
 
     public void masUno(int num) {
         placeholderHimno.setText("");
@@ -341,7 +351,7 @@ public class MainActivity extends AppCompatActivity {
         if (numero > 0) {
 
 
-            Himno himn = GetInnoByNumber(numero);
+            Himno himn = InnarioApplication.getInnoByNumber(numero);
             if (himn != null) {
                 // cerca titolo da mostrare
                 String titleShow = numString + ". " + himn.getTitle();
@@ -370,7 +380,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if (numero > 0 && numero <= limit) {
             // buscar titulo para mostrar
-            String titleShow = numString + ". " + himnos.get(numero - 1).getTitle();
+            String titleShow = numString + ". " + InnarioApplication.InniPerNumero().get(numero - 1).getTitle();
             numberHimno.setText(titleShow);
         } else {
             // mostrar placeholder
@@ -421,10 +431,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setPlaceholderHimno() {
-        if (versionHimno) {
-            placeholderHimno.setText(R.string.placeholder_himno_old);
-        } else {
-            placeholderHimno.setText(R.string.placeholder_himno);
-        }
+        placeholderHimno.setText(R.string.placeholder_himno);
+
     }
 }

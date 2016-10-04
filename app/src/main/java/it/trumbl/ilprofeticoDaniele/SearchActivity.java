@@ -1,42 +1,46 @@
 package it.trumbl.ilprofeticoDaniele;
 
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
+import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
 
-import it.trumbl.ilprofeticoDaniele.adapters.HimnoAdapter;
-import it.trumbl.ilprofeticoDaniele.dataset.DBAdapter;
-import it.trumbl.ilprofeticoDaniele.models.Himno;
-import it.trumbl.ilprofeticoDaniele.R;
 import java.util.ArrayList;
 
-public class SearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
+import it.trumbl.ilprofeticoDaniele.adapters.HimnoAdapter;
+import it.trumbl.ilprofeticoDaniele.models.Himno;
+
+public class SearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     private static final String TAG = "SearchActivity";
     private ListView listView;
-    private ArrayList<Himno> himnos;
-    private DBAdapter dbAdapter;
     private HimnoAdapter himnoAdapter;
-    private String filter;
+    private ArrayList<Himno> himnos;
+
     private boolean versionHimno;
 
     private Tracker tracker;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,30 +52,34 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         analitycsMethod();
         listView = (ListView) findViewById(R.id.listView);
 
-        himnos = new ArrayList<>();
-        dbAdapter = new DBAdapter(this);
-        dbAdapter.open();
-        versionHimno = getIntent().getBooleanExtra("version", false);
-        Cursor himnoASC = dbAdapter.getAllHimnoASC(versionHimno);
-        while (himnoASC.moveToNext()){
-            himnos.add(Himno.fromCursor(himnoASC));
-        }
-        dbAdapter.close();
-
+        himnos = InnarioApplication.getHimnosASC();
         himnoAdapter = new HimnoAdapter(this, himnos);
         listView.setAdapter(himnoAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.e(TAG, "onItemClick: " + i);
-                setResult(RESULT_OK, new Intent().putExtra("numero", himnos.get(i).getNumero()));
-                finish();
-            }
-        });
+
+
+        listView.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Log.e(TAG, "onItemClick: " + i);
+
+                        OpenHimn(i);
+                        //finish();
+                    }
+                });
     }
 
-    private void analitycsMethod(){
-        InnarioApplication application = (InnarioApplication ) getApplication();
+    private void OpenHimn(int numeroInno) {
+        Intent intent = new Intent(this, InnoTextActivity.class).putExtra("numero", himnos.get(numeroInno).getNumero());
+
+        setResult(RESULT_OK, intent);
+
+        startActivity(intent);
+
+    }
+
+    private void analitycsMethod() {
+        InnarioApplication application = (InnarioApplication) getApplication();
         tracker = application.getDefaultracker();
 
         Log.i(TAG, "Setting screen name: Main");
@@ -113,22 +121,46 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        filter = !TextUtils.isEmpty(newText) ? newText : null;
-        dbAdapter.open();
-        himnos = new ArrayList<>();
-        Cursor himnoForTitle;
-        if (filter != null){
-            himnoForTitle = dbAdapter.getHimnoForTitle(filter, versionHimno);
-        } else {
-            himnoForTitle = dbAdapter.getAllHimnoASC(versionHimno);
-        }
-        while (himnoForTitle.moveToNext()){
-            himnos.add(Himno.fromCursor(himnoForTitle));
-        }
-        dbAdapter.close();
+        himnos = InnarioApplication.getHimnByText(newText);
         himnoAdapter.setData(himnos);
         himnoAdapter.notifyDataSetChanged();
 
         return false;
+    }
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("Search Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
     }
 }

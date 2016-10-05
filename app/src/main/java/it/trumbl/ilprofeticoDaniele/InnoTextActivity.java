@@ -18,6 +18,7 @@ public class InnoTextActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        toolbar.inflateMenu(R.menu.menu_himno);
         TextView textHimno = (TextView) findViewById(R.id.text_inno);
         Intent intent = getIntent();
 

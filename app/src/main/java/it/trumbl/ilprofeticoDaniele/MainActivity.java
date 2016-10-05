@@ -222,46 +222,6 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            numero = data.getExtras().getInt("numero", 0);
-            Log.e(TAG, "result ok: " + numero);
-            if (numero > 0) {
-                placeholderHimno.setText("");
-                numString = "" + numero;
-                upPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-
-                Himno himn = InnarioApplication.getInnoByNumber(numero);
-                String titleShow = numString + ". " + himn.getTitle();
-                toolbarPanel.setTitle(titleShow);
-                numberHimno.setText(titleShow);
-
-
-                textHimno.scrollTo(0, 0);
-
-                textHimno.setText("");
-                textHimno.setText(himn.getTesto());
-
-                // Wait until my scrollView is ready
-                scrollHimno.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        scrollHimno.fullScroll(ScrollView.FOCUS_UP);
-                    }
-                }, 600);
-                // Wait until my scrollView is ready
-                textHimno.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        textHimno.scrollTo(0, 0);
-                    }
-                }, 600);
-
-            }
-        }
-    }
 
     public void numOk(View view) {
         if (numero > 0) {

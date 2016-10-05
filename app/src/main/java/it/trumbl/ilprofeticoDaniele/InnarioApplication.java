@@ -50,6 +50,18 @@ public class InnarioApplication extends Application {
         while (himnoForTitle.moveToNext()) {
             inni.add(Himno.fromCursor(himnoForTitle));
         }
+        if (inni.size() == 0) {
+            try {
+                int numero = Integer.parseInt(filter);
+                Himno inno = getInnoByNumber(numero);
+                if (inno != null) {
+                    inni.add(inno);
+                }
+            } catch (Exception e) {
+                //non fa nulla
+            }
+        }
+
         dbAdapter.close();
         return inni;
 
@@ -68,8 +80,8 @@ public class InnarioApplication extends Application {
         return null;
     }
 
-    synchronized public Tracker getDefaultracker(){
-        if (tracker == null){
+    synchronized public Tracker getDefaultracker() {
+        if (tracker == null) {
             GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
             tracker = analytics.newTracker(R.xml.global_tracker);
         }

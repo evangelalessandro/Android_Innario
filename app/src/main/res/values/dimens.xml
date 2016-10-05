@@ -3,6 +3,7 @@
     <dimen name="activity_horizontal_margin">32dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="box_padding">16dp</dimen>
+    <dimen name="spacing_large">16dp</dimen>
 
     <dimen name="btn_flat_corner_radius">2dp</dimen>
     <dimen name="btn_flat_min_width">88dp</dimen>

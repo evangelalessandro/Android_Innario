@@ -11,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdView;
@@ -34,13 +33,10 @@ public class MainActivity extends AppCompatActivity {
     private static final String TEXT_SIZE = "text_size";
     private static final int OLD_LIMIT = 527;
     private static final int NEW_LIMIT = 613;
-    private ScrollView scrollHimno;
 
-    private TextView textHimno;
     private TextView numberHimno;
     private TextView placeholderHimno;
     private SlidingUpPanelLayout upPanelLayout;
-    private MarqueeToolbar toolbarPanel;
 
     private float textSize;
     private String numString;
@@ -68,9 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         numberHimno = (TextView) findViewById(R.id.number_himno);
-        textHimno = (TextView) findViewById(R.id.text_himno);
         placeholderHimno = (TextView) findViewById(R.id.placeholder_himno);
-        scrollHimno = (ScrollView) findViewById(R.id.scroll_himno);
         setupUpPanel();
 
         ImageView backSpaceButton = (ImageView) findViewById(R.id.back_space);
@@ -115,9 +109,7 @@ public class MainActivity extends AppCompatActivity {
         outState.putString(CURRENT_TEXT_NUMBER, numberHimno.getText().toString());
         outState.putString(TOOLBAR_PANEL_TITLE, numberHimno.getText().toString());
         outState.putString(NUM_STRING, numString);
-        outState.putString(TEXT_HIMNO, textHimno.getText().toString());
         outState.putInt(NUMERO, numero);
-        outState.putFloat(TEXT_SIZE, textSize);
         Log.i(TAG, "save instance: " + outState.toString());
     }
 
@@ -357,35 +349,14 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 setPlaceholderHimno();
             }
-            toolbarPanel.setTitle(savedInstanceState.getString(TOOLBAR_PANEL_TITLE));
             numString = savedInstanceState.getString(NUM_STRING);
-            textHimno.setText(savedInstanceState.getString(TEXT_HIMNO));
             numero = savedInstanceState.getInt(NUMERO);
             textSize = savedInstanceState.getFloat(TEXT_SIZE);
-            textHimno.setTextSize(textSize);
         }
     }
 
     private void setupUpPanel() {
-        textHimno.setTextSize(textSize);
-        toolbarPanel = (MarqueeToolbar) findViewById(R.id.toolbar_panel);
-        toolbarPanel.inflateMenu(R.menu.menu_himno);
-        toolbarPanel.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.action_plus:
-                        textSize += 1;
-                        textHimno.setTextSize(textSize);
-                        return true;
-                    case R.id.action_minus:
-                        textSize -= 1;
-                        textHimno.setTextSize(textSize);
-                        return true;
-                }
-                return false;
-            }
-        });
+
         upPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         upPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
     }

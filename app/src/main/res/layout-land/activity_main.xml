@@ -118,6 +118,4 @@
 
     </LinearLayout>
 
-    <include layout="@layout/panel_up" />
-
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>

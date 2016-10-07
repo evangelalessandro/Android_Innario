@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end" />
+        app:layout_anchorGravity="right|bottom|end" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabMinus"
@@ -49,9 +49,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        android:layout_marginRight="50dp"
+
         android:src="@drawable/ic_action_minus"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="left|bottom|end" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabStar"
+        style="@style/FabStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+
+        android:src="@drawable/ic_star_white_24dp"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|center" />
 
 </android.support.design.widget.CoordinatorLayout>

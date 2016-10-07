@@ -118,6 +118,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         return false;
     }
 
+    //https://github.com/mancj/MaterialSearchBar seacrh bar da aggiungeree
     @Override
     public boolean onQueryTextChange(String newText) {
         himnos = InnarioApplication.getHimnByText(newText);

@@ -5,12 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import it.trumbl.ilprofeticoDaniele.R;
-import it.trumbl.ilprofeticoDaniele.models.Himno;
-
 import java.util.ArrayList;
+
+import it.trumbl.ilprofeticoDaniele.R;
+import it.trumbl.ilprofeticoDaniele.SharedPreference;
+import it.trumbl.ilprofeticoDaniele.models.Himno;
 
 /**
  * Created by jhonlimaster on 07-12-15.
@@ -20,10 +22,14 @@ public class HimnoAdapter extends BaseAdapter {
     private static final String TAG = "HimnoAdapter";
     private Context context;
     private ArrayList<Himno> himnos;
+    private ArrayList<String> preferedList;
 
     public HimnoAdapter(Context context, ArrayList<Himno> himnos) {
         this.context = context;
         this.himnos = himnos;
+        SharedPreference preference = new SharedPreference(context);
+        preferedList = preference.loadFavorites();
+
     }
 
     @Override
@@ -54,22 +60,33 @@ public class HimnoAdapter extends BaseAdapter {
         final Himno himno = himnos.get(i);
 
         viewHolder.numeroHimno.setText(String.valueOf(himno.getNumero()));
-        viewHolder.tituloHimno.setText(himno.getTitle());
+        viewHolder.titleHim.setText(himno.getTitle());
+
+        if (!preferedList.contains(String.valueOf(himno.getNumero()))) {
+            viewHolder.imageView.setImageResource(R.drawable.ic_star_border_white_24dp);
+        } else {
+
+            viewHolder.imageView.setImageResource(R.drawable.ic_star_white_24dp);
+        }
 
         return view;
     }
 
-    public void setData(ArrayList<Himno> data){
+    public void setData(ArrayList<Himno> data) {
         this.himnos = data;
     }
 
     public class ViewHolder {
         TextView numeroHimno;
-        TextView tituloHimno;
+        TextView titleHim;
+        ImageView imageView;
+
 
         public ViewHolder(View itemView) {
             numeroHimno = (TextView) itemView.findViewById(R.id.numero_himno);
-            tituloHimno = (TextView) itemView.findViewById(R.id.titulo_himno);
+            titleHim = (TextView) itemView.findViewById(R.id.title_himno);
+            imageView = (ImageView) itemView.findViewById(R.id.prefered_himn);
+
         }
     }
 }

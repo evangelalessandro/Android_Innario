@@ -27,9 +27,7 @@ public class HimnoAdapter extends BaseAdapter {
     public HimnoAdapter(Context context, ArrayList<Himno> himnos) {
         this.context = context;
         this.himnos = himnos;
-        SharedPreference preference = new SharedPreference(context);
-        preferedList = preference.loadFavorites();
-
+        ReloadPrefered();
     }
 
     @Override
@@ -47,6 +45,11 @@ public class HimnoAdapter extends BaseAdapter {
         return himnos.indexOf(himnos.get(i));
     }
 
+    public void ReloadPrefered() {
+        SharedPreference preference = new SharedPreference(context);
+        preferedList = preference.loadFavorites();
+
+    }
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         final ViewHolder viewHolder;

@@ -68,6 +68,15 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
                 });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        himnoAdapter.ReloadPrefered();
+        himnoAdapter.notifyDataSetChanged();
+
+    }
+
     private void OpenHimn(int numeroInno) {
         Intent intent = new Intent(this, InnoTextActivity.class).putExtra("numero", himnos.get(numeroInno).getNumero());
 

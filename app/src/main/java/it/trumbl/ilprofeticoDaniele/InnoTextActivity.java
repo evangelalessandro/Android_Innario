@@ -44,7 +44,7 @@ public class InnoTextActivity extends AppCompatActivity {
         sharedpreferences = getSharedPreferences("textSize", Context.MODE_PRIVATE);
 
         CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-        collapsingToolbarLayout.setTitle(inno.getTitle());
+        collapsingToolbarLayout.setTitle(String.valueOf(inno.getNumero()) + " " + inno.getTitle());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabMinus);
         fab.setOnClickListener(new View.OnClickListener() {
